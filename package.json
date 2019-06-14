@@ -4,7 +4,8 @@
   "description": "Projeto de treinamento Jedi, pelo mestre Digão. Que a força esteja conosco.",
   "main": "index.js",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.3"
+    "cheerio": "^1.0.0-rc.3",
+    "dotenv": "^8.0.0"
   },
   "devDependencies": {
     "body-parser": "^1.19.0",
