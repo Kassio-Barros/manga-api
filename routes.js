@@ -10,9 +10,9 @@ router.get('/:nome/:capitulo', function (req, res) {
   const capitulo = req.params.capitulo
 
   const pagina = async () => {
-    const totalCap = await Download.totalCap(nome)
-    const numPag = await Download.numeroPaginas(nome, capitulo)
-    const links = await Download.links(nome, capitulo)
+    const totalCap = await Download.totalCap('https://www.mangareader.net/', nome)
+    const numPag = await Download.numeroPaginas('https://www.mangareader.net/', nome, capitulo)
+    const links = await Download.links('https://www.mangareader.net/', nome, capitulo)
 
     res.json({
       nome: req.params.nome,
