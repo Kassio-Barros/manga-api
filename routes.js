@@ -9,14 +9,14 @@ router.get('/', async (req, res) => {
 
   const totalCap = await Download.totalCap(process.env.SITE_URL, nome)
   await Download.infoPagina(process.env.SITE_URL, nome, capitulo)
-  const links = await Download.links()
+  await Download.links()
 
   res.json({
     nome: req.query.nome,
     capitulo: req.query.capitulo,
     totalCapitulos: totalCap[0],
     totalPaginas: Download.numPage,
-    urls: links,
+    urls: Download.linkImagensCompleto,
   })
 })
 

@@ -40,22 +40,23 @@ class Download {
     $('#pageMenu').find('option').each((i, elem) => {
       linksImagens[i] = `https://www.mangareader.net${$(elem).attr('value')}`
     })
-    console.log(linksImagens);
   }
 
   static async links() {
     const solveLinks = async (i) => {
       const page = await this.getUrl(linksImagens[i])
       const imagemUrl = page('#img').attr('src')
-      linkImagensCompleto.push({ pagina: i + 1, url: imagemUrl })
+      linkImagensCompleto.push()
+      return { pagina: i + 1, url: imagemUrl }
     }
 
     const solvePage = []
     for (let i = 0; i < linksImagens.length; i += 1) {
       solvePage.push(solveLinks(i))
     }
-    Promise.all(solvePage);
-    return linkImagensCompleto
+    const imgResolve = await Promise.all(solvePage);
+
+    this.linkImagensCompleto = imgResolve
   }
 }
 
