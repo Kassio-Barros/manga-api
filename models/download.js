@@ -9,14 +9,17 @@ class Download {
     this.capitulo = capitulo
   }
 
-  static async getUrl(url, nome, capitulo = false) {
+  static async getUrl(url, nome = false, capitulo = false) {
     let pagina
     if (capitulo) {
       pagina = await rp(`${url}${nome}/${capitulo}`)
-    } else {
-      pagina = await rp(`${url}${nome}`)
-    }
 
+    } else if (url && nome) {
+      pagina = await rp(`${url}${nome}`)
+
+    } else {
+      pagina = await rp(url)
+    }
     const $ = cheerio.load(pagina)
     return $
   }
@@ -43,9 +46,17 @@ class Download {
       linksImagens[i] = $(this).val()
     })
 
-    linksImagens.forEach((i, elem) => {
-      linkImagensCompleto.push({ pagina: elem + 1, url: `https:/www.mangareader.net${[i]}` })
-    })
+    for (let i = 0; i < linksImagens.length; i += 1) {
+      const linkImagem = `https://www.mangareader.net${linksImagens[i]}`
+      const $ = await this.getUrl(linkImagem)
+
+      const imagemUrl = $('#img').attr('src')
+      console.log(imagemUrl);
+
+      linkImagensCompleto.push({ pagina: i + 1, url: imagemUrl })
+
+    }
+
     return linkImagensCompleto
   }
 }
