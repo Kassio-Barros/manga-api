@@ -1,4 +1,5 @@
 const express = require('express')
+
 const router = express.Router()
 
 const Download = require('./models/download')
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
     capitulo: req.params.capitulo,
     totalCapitulos: totalCap[0],
     totalPaginas: numPag,
-    urls: links
+    urls: links,
   })
 })
 
