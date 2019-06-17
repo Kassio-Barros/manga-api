@@ -36,7 +36,7 @@ class Download {
   static async numeroPaginas(url, nome, capitulo) {
     const $ = await this.getUrl(url, nome, capitulo)
     const numeroPaginas = $('#pageMenu').children().last().text()
-    return numeroPaginas
+    this.numPage = numeroPaginas;
   }
 
   static async links(url, nome, capitulo) {
