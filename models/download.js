@@ -3,7 +3,7 @@ const cheerio = require('cheerio')
 const linksImagens = new Array
 const linkImagensCompleto = new Array
 
-class Donwload {
+class Download {
   constructor(nome, capitulo) {
     this.nome = nome
     this.capitulo = capitulo
@@ -50,4 +50,4 @@ class Donwload {
   }
 }
 
-module.exports = Donwload
+module.exports = Download
