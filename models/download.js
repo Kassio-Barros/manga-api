@@ -1,4 +1,4 @@
-const rp = require('request-promise');
+const rp = require('request-promise')
 const cheerio = require('cheerio')
 const linksImagens = new Array
 const linkImagensCompleto = new Array
@@ -40,15 +40,14 @@ class Donwload {
     const $ = await this.getUrl(url, nome, capitulo)
 
     $('#pageMenu').find('option').each(function (i, elem) {
-      linksImagens[i] = $(this).val();
+      linksImagens[i] = $(this).val()
     })
 
     linksImagens.forEach((i, elem) => {
       linkImagensCompleto.push({ pagina: elem + 1, url: `https:/www.mangareader.net${[i]}` })
     })
-    return linkImagensCompleto;
+    return linkImagensCompleto
   }
 }
 
-
-module.exports = Donwload;
+module.exports = Donwload

@@ -1,13 +1,10 @@
 const express = require('express')
-const router = express.Router();
-const rp = require('request-promise');
-const cheerio = require('cheerio')
+const router = express.Router()
 
-const Download = require('./models/donwload')
+const Download = require('./models/download')
 
-router.get('/:nome/:capitulo', function (req, res) {
-  const nome = req.params.nome;
-  const capitulo = req.params.capitulo
+router.get('/', (req, res) => {
+  const { nome, capitulo } = req.query
 
   const pagina = async () => {
     const totalCap = await Download.totalCap(process.env.SITE_URL, nome)
