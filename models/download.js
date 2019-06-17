@@ -1,7 +1,8 @@
 const rp = require('request-promise')
 const cheerio = require('cheerio')
-const linksImagens = new Array
-const linkImagensCompleto = new Array
+
+const linksImagens = []
+const linkImagensCompleto = []
 
 class Download {
   constructor(nome, capitulo) {
@@ -13,10 +14,8 @@ class Download {
     let pagina
     if (capitulo) {
       pagina = await rp(`${url}${nome}/${capitulo}`)
-
     } else if (url && nome) {
       pagina = await rp(`${url}${nome}`)
-
     } else {
       pagina = await rp(url)
     }
@@ -33,30 +32,29 @@ class Download {
     return resultRegex
   }
 
-  static async numeroPaginas(url, nome, capitulo) {
+  static async infoPagina(url, nome, capitulo) {
     const $ = await this.getUrl(url, nome, capitulo)
     const numeroPaginas = $('#pageMenu').children().last().text()
     this.numPage = numeroPaginas;
+
+    $('#pageMenu').find('option').each((i, elem) => {
+      linksImagens[i] = `https://www.mangareader.net${$(elem).attr('value')}`
+    })
+    console.log(linksImagens);
   }
 
-  static async links(url, nome, capitulo) {
-    const $ = await this.getUrl(url, nome, capitulo)
-
-    $('#pageMenu').find('option').each(function (i, elem) {
-      linksImagens[i] = $(this).val()
-    })
-
-    for (let i = 0; i < linksImagens.length; i += 1) {
-      const linkImagem = `https://www.mangareader.net${linksImagens[i]}`
-      const $ = await this.getUrl(linkImagem)
-
-      const imagemUrl = $('#img').attr('src')
-      console.log(imagemUrl);
-
+  static async links() {
+    const solveLinks = async (i) => {
+      const page = await this.getUrl(linksImagens[i])
+      const imagemUrl = page('#img').attr('src')
       linkImagensCompleto.push({ pagina: i + 1, url: imagemUrl })
-
     }
 
+    const solvePage = []
+    for (let i = 0; i < linksImagens.length; i += 1) {
+      solvePage.push(solveLinks(i))
+    }
+    Promise.all(solvePage);
     return linkImagensCompleto
   }
 }
